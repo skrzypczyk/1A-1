@@ -47,7 +47,7 @@ test($name);
 
 echo $name; //titi
 
-*/
+
 
 
 function isPrime($number) {
@@ -81,7 +81,14 @@ while ( $max > 0) {
 	$start++;
 }
 
+*/
 
+
+$toto = 2;
+$titi = &$toto;
+$titi = 3;
+
+echo $toto; //3
 
 
 
