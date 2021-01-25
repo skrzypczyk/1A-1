@@ -1,6 +1,6 @@
 <!--
 
-Un formulaire PHP d'inscription avec les champs :
+Un formulaire HTML d'inscription avec les champs :
 - Email
 - Mot de passe
 - Confirmation du mot de passe
@@ -11,3 +11,9 @@ Un formulaire PHP d'inscription avec les champs :
 - un bouton pour valider le formulaire
 
 -->
+
+
+
+<form>
+
+</form>
