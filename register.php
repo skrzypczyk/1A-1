@@ -55,6 +55,10 @@ if ( count($_POST) == 5
 	}
 
 
+	//Vérifier l'unicté de l'adresse email
+	//$listOfErrors[] =  "Votre email existe déjà";
+
+
 	//mot de passe : Min 1 majuscule/chiffre/minuscule, min de 8
 	// regex : #[a-z]# , #[A-Z]#, #[0-9]#
 	if( strlen($pwd)<8
