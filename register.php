@@ -81,6 +81,15 @@ if ( count($_POST) == 5
 		$connection = connectDB();
 		//Insertion de 'utilisateur en bdd'
 
+
+		$queryPrepared =  $connection->prepare("INSERT INTO pfh4_user (firstname, lastname, email, pwd) VALUES ( :firstname , :lastname , :email , :pwd );");
+
+
+		$pwd = password_hash($pwd, PASSWORD_DEFAULT);
+
+		$queryPrepared->execute( ["firstname"=>$firstname, "lastname"=>$lastname, "email"=>$email, "pwd"=>$pwd] );
+
+
 	}
 	//Sinon il y a eu des erreurs
 	else{
