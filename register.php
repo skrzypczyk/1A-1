@@ -1,4 +1,7 @@
 <?php
+
+require "functions.php";
+
 /*
 
 Vérifier les champs - les données
@@ -30,21 +33,24 @@ if ( count($_POST) == 5
 	$pwdConfirm = $_POST["pwdConfirm"];
 
 
+	$listOfErrors = [];
+
+
 	//Prénom : min:2 max:50
 	if( strlen($firstname)<2 || strlen($firstname)>50 ) {
-		echo "Votre prénom doit faire entre 2 et 50 caractères";
+		$listOfErrors[] = "Votre prénom doit faire entre 2 et 50 caractères";
 	}
 
 
 	//Nom : min:2 max:100
 	if( strlen($lastname)<2 || strlen($lastname)>100 ) {
-		echo "Votre nom doit faire entre 2 et 100 caractères";
+		$listOfErrors[] =  "Votre nom doit faire entre 2 et 100 caractères";
 	}
 
 
 	//Email : vérification du format 
 	if( !filter_var($email, FILTER_VALIDATE_EMAIL) ) {
-		echo "Votre email n'est pas correcte";
+		$listOfErrors[] =  "Votre email n'est pas correcte";
 
 	}
 
@@ -57,7 +63,7 @@ if ( count($_POST) == 5
 		|| !preg_match("#[0-9]#", $pwd)
 	 ) {
 
-		echo "Votre mot de passe doit faire au min 8 caractères dont 1 minuscule, 1 majuscule et 1 chiffre";
+		$listOfErrors[] =  "Votre mot de passe doit faire au min 8 caractères dont 1 minuscule, 1 majuscule et 1 chiffre";
 
 	}
 
@@ -65,7 +71,21 @@ if ( count($_POST) == 5
 
 	//mot de passe de confirmation = mot de passe
 	if( $pwd != $pwdConfirm){
-		echo "Mot de passe de confirmation NOK";
+		$listOfErrors[] =  "Mot de passe de confirmation NOK";
+	}
+
+
+	//Si $listOfErrors est vide le formulaire est OK
+	if( empty($listOfErrors) ){
+		//Enregistrer en bdd l'utilisateur
+		$connection = connectDB();
+		//Insertion de 'utilisateur en bdd'
+
+	}
+	//Sinon il y a eu des erreurs
+	else{
+		//Afficher les erreurs sur la page form.php
+
 	}
 
 
