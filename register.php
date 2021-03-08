@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require "functions.php";
 
@@ -52,11 +53,24 @@ if ( count($_POST) == 5
 	if( !filter_var($email, FILTER_VALIDATE_EMAIL) ) {
 		$listOfErrors[] =  "Votre email n'est pas correcte";
 
+	}else{
+		
+		//Vérifier l'unicté de l'adresse email
+		//$listOfErrors[] =  "Votre email existe déjà";
+		$connection = connectDB();	
+
+		$queryPrepared = $connection->prepare("SELECT email FROM pfh4_user WHERE email=:email");
+
+		$queryPrepared->execute(["email"=>$email]);
+
+		if( $queryPrepared->rowCount() != 0 ){
+			$listOfErrors[] =  "Votre email existe déjà";
+		}
+
+
 	}
 
 
-	//Vérifier l'unicté de l'adresse email
-	//$listOfErrors[] =  "Votre email existe déjà";
 
 
 	//mot de passe : Min 1 majuscule/chiffre/minuscule, min de 8
@@ -82,9 +96,7 @@ if ( count($_POST) == 5
 	//Si $listOfErrors est vide le formulaire est OK
 	if( empty($listOfErrors) ){
 		//Enregistrer en bdd l'utilisateur
-		$connection = connectDB();
 		//Insertion de 'utilisateur en bdd'
-
 
 		$queryPrepared =  $connection->prepare("INSERT INTO pfh4_user (firstname, lastname, email, pwd) VALUES ( :firstname , :lastname , :email , :pwd );");
 
@@ -93,12 +105,14 @@ if ( count($_POST) == 5
 
 		$queryPrepared->execute( ["firstname"=>$firstname, "lastname"=>$lastname, "email"=>$email, "pwd"=>$pwd] );
 
+		header("Location: index.php");
 
 	}
 	//Sinon il y a eu des erreurs
 	else{
 		//Afficher les erreurs sur la page form.php
-
+		$_SESSION["listOfErrors"] = $listOfErrors;
+		header("Location: newUser.php");
 	}
 
 
