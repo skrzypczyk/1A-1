@@ -61,6 +61,10 @@
 			<input type="password" name="pwdConfirm" required="required"><br>
 		</label>
 
+		<img src="captcha.php"><br>
+		<input type="text" name="captcha" required="required"><br>
+
+
 		<input type="submit" value="S'inscrire">
 
 

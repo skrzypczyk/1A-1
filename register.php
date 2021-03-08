@@ -17,9 +17,10 @@ Si NOK -> on redirige vers la page d'inscription avec les msg d'erreurs
 
 // FAILLE XSS
 // Vérifier qu'il y a 5 valeurs et que les champs obligatoires ne soient pas vides
-if ( count($_POST) == 5 
+if ( count($_POST) == 6 
 	&& !empty($_POST["firstname"])
 	&& !empty($_POST["lastname"])
+	&& !empty($_POST["captcha"])
 	&& !empty($_POST["email"])
 	&& !empty($_POST["pwd"])
 	&& !empty($_POST["pwdConfirm"])
@@ -35,6 +36,11 @@ if ( count($_POST) == 5
 
 
 	$listOfErrors = [];
+
+
+	if( $_POST["captcha"] != $_SESSION["captcha"] ) {
+		$listOfErrors[] = "Erreur sur le captcha";
+	}
 
 
 	//Prénom : min:2 max:50

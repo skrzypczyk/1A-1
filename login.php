@@ -1,7 +1,9 @@
 <?php 
+	session_start();
 	//Factorisation
 	include "header.php";
 	//require "header.php";
+	require "functions.php";
 ?>
 
 
@@ -16,6 +18,27 @@
 
 			//Afficher OK si les identifiants sont bons sinon afficher NOK
 			//password_verify
+			$email = $_POST["email"];
+			$pwd = $_POST["pwd"];
+
+			$connection = connectDB();
+			$queryPrepared = $connection->prepare("SELECT * FROM pfh4_user WHERE email=:email");
+			$queryPrepared->execute(["email"=>$email]);
+
+			$results = $queryPrepared->fetch();
+
+			if(empty($results)){
+				echo '<div style="background-color:#ad5555; color: white; padding: 10px; margin: 10px; ">Identifiants incorrects</div>';
+			}else if( password_verify($pwd, $results["pwd"]) ){
+				
+				$_SESSION["auth"]=true;
+				$_SESSION["info"]=$results;
+				header("Location: index.php");
+
+
+			}else{
+				echo '<div style="background-color:#ad5555; color: white; padding: 10px; margin: 10px; ">Identifiants incorrects</div>';
+			}
 
 		}
 
